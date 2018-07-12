@@ -1,5 +1,5 @@
 #!/bin/bash
-#dep ensure
+dep ensure
 gometalinter --skip internal --vendor ./...
 go test ./...
 go build
