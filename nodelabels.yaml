@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodelabels
+  labels:
+    component: nodelabels
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: nodelabels
+  template:
+    metadata:
+      labels:
+        component: nodelabels
+    spec:
+      containers:
+        - name: app
+          image: cycoresystems/nodelabels
+          env:
+            - name: COUNT
+              value: "2"
+            - name: NODE_KEY
+              value: "sip"
+            - name: NODE_VAL
+              value: "proxy"
