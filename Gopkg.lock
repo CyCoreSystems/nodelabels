@@ -2,6 +2,7 @@
 
 
 [[projects]]
+  digest = "1:0934dc7ace848a0fb6344eb7a78cf8cd9ae04b91b1f93865c7d4d23f185f08db"
   name = "github.com/ericchiang/k8s"
   packages = [
     ".",
@@ -12,35 +13,43 @@
     "runtime",
     "runtime/schema",
     "util/intstr",
-    "watch/versioned"
+    "watch/versioned",
   ]
+  pruneopts = "UT"
   revision = "677cf3318ef83bf681a38821f81a233a9be09641"
   version = "v1.1.0"
 
 [[projects]]
+  digest = "1:15042ad3498153684d09f393bbaec6b216c8eec6d61f63dff711de7d64ed8861"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
+  pruneopts = "UT"
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
   version = "v1.1.0"
 
 [[projects]]
+  digest = "1:40e195917a951a8bf867cd05de2a46aaf1806c50cf92eebf4c16f78cd196f747"
   name = "github.com/pkg/errors"
   packages = ["."]
+  pruneopts = "UT"
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
   branch = "master"
+  digest = "1:4d8d6b5d802b041f76825a39b92702347b8724f5f8448f9b9788932761c5e83e"
   name = "golang.org/x/net"
   packages = [
     "http/httpguts",
     "http2",
     "http2/hpack",
-    "idna"
+    "idna",
   ]
+  pruneopts = "UT"
   revision = "cffdcf672aee934982473246bc7e9a8ba446aa9b"
 
 [[projects]]
+  digest = "1:7509ba4347d1f8de6ae9be8818b0cd1abc3deeffe28aeaf4be6d4b6b5178d9ca"
   name = "golang.org/x/text"
   packages = [
     "collate",
@@ -56,14 +65,19 @@
     "unicode/bidi",
     "unicode/cldr",
     "unicode/norm",
-    "unicode/rangetable"
+    "unicode/rangetable",
   ]
+  pruneopts = "UT"
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8b28eddabeb578612ee12a50df32c1905fa8e50560041a168bfc91a5e431c994"
+  input-imports = [
+    "github.com/ericchiang/k8s",
+    "github.com/ericchiang/k8s/apis/core/v1",
+    "github.com/pkg/errors",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
