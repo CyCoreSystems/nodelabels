@@ -1,6 +1,7 @@
 project_name: Kubernetes Node Label Manager
 builds:
    - main: ./cmd/nodelabels/main.go
+     binary: nodelabels
      env:
         - CGO_ENABLED=0
      goos:
