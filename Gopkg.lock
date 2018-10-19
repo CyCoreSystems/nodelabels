@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  digest = "1:0934dc7ace848a0fb6344eb7a78cf8cd9ae04b91b1f93865c7d4d23f185f08db"
+  digest = "1:0b8888be827fe871082473c3dc1a8bb5e19fdcab673e216e6169aac3c474f249"
   name = "github.com/ericchiang/k8s"
   packages = [
     ".",
@@ -37,7 +37,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:4d8d6b5d802b041f76825a39b92702347b8724f5f8448f9b9788932761c5e83e"
+  digest = "1:a2a7b09beb5d3ada4d5d79e119cdde1adb76716eaf8860a8ef4f73f18a48a0c9"
   name = "golang.org/x/net"
   packages = [
     "http/httpguts",
@@ -49,7 +49,7 @@
   revision = "cffdcf672aee934982473246bc7e9a8ba446aa9b"
 
 [[projects]]
-  digest = "1:7509ba4347d1f8de6ae9be8818b0cd1abc3deeffe28aeaf4be6d4b6b5178d9ca"
+  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
   name = "golang.org/x/text"
   packages = [
     "collate",
