@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"io"
 	"log"
 	"os"
 	"strconv"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/CyCoreSystems/nodelabels"
 	"github.com/ericchiang/k8s"
+	"github.com/pkg/errors"
 )
 
 var nodeKey = "sip"
@@ -19,8 +21,6 @@ var checkInterval = 2 * time.Minute
 
 func main() {
 	var err error
-
-	ctx := context.Background()
 
 	if os.Getenv("COUNT") != "" {
 		desiredCount, err = strconv.Atoi(os.Getenv("COUNT"))
@@ -37,6 +37,19 @@ func main() {
 		nodeVal = os.Getenv("NODE_VAL")
 	}
 
+	for {
+		err = run(nodeKey, nodeVal)
+		if errors.Cause(err) != io.EOF {
+			log.Println("manager died:", err)
+			os.Exit(1)
+		}
+	}
+}
+
+func run(nodeKey, nodeVal string) error {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	kc, err := k8s.NewInClusterClient()
 	if err != nil {
 		log.Println("failed to get k8s client:", err)
@@ -49,7 +62,7 @@ func main() {
 
 	go checker(ctx, m, sig)
 
-	log.Fatal(m.Watch(ctx, sig))
+	return m.Watch(ctx, sig)
 }
 
 func checker(ctx context.Context, m nodelabels.Manager, sig chan struct{}) {
