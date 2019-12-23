@@ -1,6 +1,4 @@
 #!/bin/bash
-dep ensure
-#gometalinter --skip internal --vendor ./...
 golangci-lint run
 go test ./...
 go build

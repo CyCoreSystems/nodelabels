@@ -21,6 +21,9 @@ type Manager interface {
 type kubeManager struct {
 	kc *k8s.Client
 
+	filterKey string
+	filterVal string
+
 	key string
 	val string
 }
@@ -63,7 +66,21 @@ func (m *kubeManager) listAllNodes(ctx context.Context) (ret []*corev1.Node, err
 		return
 	}
 
-	ret = append(ret, list.GetItems()...)
+	if m.filterKey == "" {
+		ret = append(ret, list.GetItems()...)
+		return
+	}
+
+	for _, n := range list.GetItems() {
+		labels := n.GetMetadata().GetLabels()
+		val, ok := labels[m.filterKey]
+		if !ok {
+			continue
+		}
+		if val == m.filterVal {
+			ret = append(ret, n)
+		}
+	}
 	return
 }
 
@@ -153,5 +170,16 @@ func NewManager(kc *k8s.Client, key, val string) Manager {
 		kc:  kc,
 		key: key,
 		val: val,
+	}
+}
+
+// NewFilteredManager returns a new node manager which will filter nodes based on the given key-value label set
+func NewFilteredManager(kc *k8s.Client, key, val, filterKey, filterVal string) Manager {
+	return &kubeManager{
+		kc:        kc,
+		key:       key,
+		val:       val,
+		filterKey: filterKey,
+		filterVal: filterVal,
 	}
 }

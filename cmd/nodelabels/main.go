@@ -15,6 +15,8 @@ import (
 
 var nodeKey = "sip"
 var nodeVal = "proxy"
+var filterKey = ""
+var filterVal = ""
 
 var desiredCount = 2
 var checkInterval = 2 * time.Minute
@@ -36,9 +38,15 @@ func main() {
 	if os.Getenv("NODE_VAL") != "" {
 		nodeVal = os.Getenv("NODE_VAL")
 	}
+	if os.Getenv("FILTER_KEY") != "" {
+		filterKey = os.Getenv("FILTER_KEY")
+	}
+	if os.Getenv("FILTER_VAL") != "" {
+		filterVal = os.Getenv("FILTER_VAL")
+	}
 
 	for {
-		err = run(nodeKey, nodeVal)
+		err = run(nodeKey, nodeVal, filterKey, filterVal)
 		if errors.Cause(err) != io.EOF {
 			log.Println("manager died:", err)
 			os.Exit(1)
@@ -46,7 +54,7 @@ func main() {
 	}
 }
 
-func run(nodeKey, nodeVal string) error {
+func run(nodeKey, nodeVal, filterKey, filterVal string) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -58,7 +66,7 @@ func run(nodeKey, nodeVal string) error {
 
 	sig := make(chan struct{}, 1)
 
-	m := nodelabels.NewManager(kc, nodeKey, nodeVal)
+	m := nodelabels.NewFilteredManager(kc, nodeKey, nodeVal, filterKey, filterVal)
 
 	go checker(ctx, m, sig)
 
@@ -66,7 +74,6 @@ func run(nodeKey, nodeVal string) error {
 }
 
 func checker(ctx context.Context, m nodelabels.Manager, sig chan struct{}) {
-
 	for {
 		select {
 		case <-ctx.Done():
